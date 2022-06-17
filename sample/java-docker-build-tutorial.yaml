@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-docker-build-tutorial
+  namespace: default
+  labels:
+    app: java-docker-build-tutorial-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: java-docker-build-tutorial-app
+  template:
+    metadata:
+      labels:
+        app: java-docker-build-tutorial-app
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+                - arm64
+      containers:
+      - name: java-docker-build-tutorial
+        image: 834843395643.dkr.ecr.eu-central-1.amazonaws.com/java-docker-build-tutorial:latest
+        ports:
+        - name: http
+          containerPort: 8123
+        imagePullPolicy: IfNotPresent
+      nodeSelector:
+        kubernetes.io/os: linux
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-docker-build-tutorial-service
+  namespace: default
+  labels:
+    app: java-docker-build-tutorial-app
+spec:
+  selector:
+    app: java-docker-build-tutorial-app
+  ports:
+    - protocol: TCP
+      port: 8123
+      nodePort: 30001
+      targetPort: 8123
+  type: NodePort

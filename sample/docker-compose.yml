@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  java-docker-build-tutorial:
+    container_name: java-docker-build-tutorial
+    build: .
+    image: 834843395643.dkr.ecr.eu-central-1.amazonaws.com/java-docker-build-tutorial
+    ports:
+      - 8123:8123

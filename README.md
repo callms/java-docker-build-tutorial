@@ -1,56 +1,29 @@
-# Tutorial: Create a Docker image for a Java application
+# java-docker-build-tutorial
 
-[![Build Status](https://travis-ci.org/miguno/java-docker-build-tutorial.svg?branch=master)](https://travis-ci.org/miguno/java-docker-build-tutorial)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+This is a sample project that shows how to deploy a basic Java app on an EKS cluster.
 
-A template project to create a Docker image for a Java application.
-The example application exposes an HTTP endpoint.
+It is very basic, and inspired from https://github.com/miguno/java-docker-build-tutorial
 
-The Docker build uses a [multi-stage build setup](https://docs.docker.com/develop/develop-images/multistage-build/)
-to minimize the size of the generated Docker image.
+## Steps
 
-> **Golang developer?** Check out https://github.com/miguno/golang-docker-build-tutorial
+### EKS
 
+Make sure you have a valid EKS cluster.
 
-# Requirements
+### Prepare the files for your environment
 
-Docker must be installed. That's it. You do not need a Java JDK or Maven installed.
+Copy the files from `sample` on the root directory, and edit them to change the AWS account to your own (the files have been written for account 834843395643, perform a search and replace).
 
+### Deploy on your cluster
 
-# Usage and Demo
-
-**Step 1:** Create the Docker image according to [Dockerfile](Dockerfile).
-This step uses Maven to build, test, and package the [Java application](src/main/java/com/miguno/App.java)
-according to [pom.xml](pom.xml).  The resulting image is 87MB in size.
-
-```shell
-# This may take a few minutes.
-$ docker build -t miguno/java-docker-build-tutorial:latest .
+```bash
+kubectl apply -f java-docker-build-tutorial.yaml
 ```
 
-**Step 2:** Start a container for the Docker image.
+### Profit
 
-```shell
-$ docker run -p 8123:8123 miguno/java-docker-build-tutorial:latest
-```
+Make sure the service is deployed:
 
-**Step 3:** Open another terminal and access the example API endpoint.
-
-```shell
-$ curl http://localhost:8123/status
-{"status": "idle"}
-```
-
-
-# Notes
-
-You can also build, test, package, and run the Java application locally (without Docker)
-if you have JDK 8+ and Maven installed.
-
-```shell
-# Build, test, package the application locally
-$ mvn package
-
-# Run the application locally
-$ java -jar target/app.jar
+```bash
+kubectl get all
 ```
