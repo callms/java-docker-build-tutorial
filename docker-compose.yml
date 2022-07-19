@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  java-hello-world:
+    build: .
+    image: 834843395643.dkr.ecr.eu-central-1.amazonaws.com/java-docker-build-tutorial
+    network_mode: host

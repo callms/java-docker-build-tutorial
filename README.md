@@ -4,6 +4,10 @@ This is a sample project that shows how to deploy a basic Java app on an EKS clu
 
 It is very basic, and inspired from https://github.com/miguno/java-docker-build-tutorial
 
+## Local testing
+
+To test the container locally:
+
 ## Steps
 
 ### EKS
